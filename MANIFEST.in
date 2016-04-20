@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include analytics *.css
+recursive-include analytics *.csv
+recursive-include analytics *.html
+recursive-include analytics *.ico
+recursive-include analytics *.js
+recursive-include analytics *.json
+recursive-include analytics *.md
+recursive-include analytics *.png
+recursive-include analytics *.py
+recursive-include analytics *.svg
+recursive-include analytics *.txt
+recursive-exclude analytics *.pyc
