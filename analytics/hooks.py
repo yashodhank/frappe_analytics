@@ -46,7 +46,7 @@ app_license = "MIT"
 # ------------
 
 # before_install = "analytics.install.before_install"
-# after_install = "analytics.install.after_install"
+after_install = "analytics.analytics.doctype.common_methods.after_install"
 
 # Desk Notifications
 # ------------------

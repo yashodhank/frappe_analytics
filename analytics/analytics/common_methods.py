@@ -34,3 +34,12 @@ def make_doctype_maybe(doctype_name):
     except frappe.DoesNotExistError:
         dt = DocType(get_change_doctype_json(doctype_name))
         dt.insert()
+
+
+def after_install():
+    changed_fields = frappe.client.get_list(
+        "Changed Fields", limit_page_length=None
+        )
+    for doc in changed_fields:
+        doc = frappe.get_doc("Changed Fields", doc['name'])
+        sort_changed_field(doc, method=None)
