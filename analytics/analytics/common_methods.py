@@ -1,9 +1,11 @@
 import frappe
+from frappe.client import get_list
 from frappe.core.doctype.doctype.doctype import DocType
+from frappe.desk.form.meta import get_meta
 from frappe.model.document import Document
 import json
 
-from .doctype_template import get_analytics_doctype_name, get_change_doctype_json
+from .doctype_template import get_change_doctype_json
 
 
 def sort_changed_field(doc, method):
@@ -16,10 +18,14 @@ def sort_changed_field(doc, method):
     doc.delete()
 
 
+def get_analytics_doctype_name(doctype):
+    return (doctype + " Field History")
+
+
 def sanitize_document(from_doc, to_doctype):
     """ Sanitizes document to only contain fields in destination doctype, plus
     the destination doctype"""
-    meta = frappe.desk.form.meta.get_meta(to_doctype)
+    meta = get_meta(to_doctype)
     fields = [field.fieldname for field in meta.fields]
     doc_dict = frappe.client.get(from_doc)
     sanitized_doc =  {k:v for k, v in doc_dict.iteritems() if k in fields}
@@ -37,9 +43,10 @@ def make_doctype_maybe(doctype_name):
 
 
 def after_install():
-    changed_fields = frappe.client.get_list(
+    changed_fields = get_list(
         "Changed Fields", limit_page_length=None
         )
+    # would like to output to a pipe here
     for doc in changed_fields:
         doc = frappe.get_doc("Changed Fields", doc['name'])
         sort_changed_field(doc, method=None)

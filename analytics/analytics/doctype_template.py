@@ -1,6 +1,3 @@
-def get_analytics_doctype_name(doctype):
-    return (doctype + " Field History")
-
 def get_change_doctype_json(doctype):
     return {
          "allow_copy": 0,
