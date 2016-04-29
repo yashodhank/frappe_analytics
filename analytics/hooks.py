@@ -46,7 +46,7 @@ app_license = "MIT"
 # ------------
 
 # before_install = "analytics.install.before_install"
-after_install = "analytics.analytics.common_methods.after_install"
+#after_install = "analytics.analytics.common_methods.after_install"
 
 # Desk Notifications
 # ------------------
@@ -71,17 +71,20 @@ after_install = "analytics.analytics.common_methods.after_install"
 # Hook on document methods and events
 
 doc_events = {
-    "Changed Fields": {
-        "after_insert": "analytics.analytics.common_methods.sort_changed_field"
-        }
+    "*": {
+        "before_save": "analytics.analytics.common_methods.dump_pre_save_doc",
+    },
+    "Doc History Temp": {
+        "after_insert": "analytics.analytics.common_methods.sort_temp_entries"
+    }
 }
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+#scheduler_events = {
 # 	"all": [
-# 		"analytics.tasks.all"
+# 		"analytics.analytics.common_methods.sort_temp_entries"
 # 	],
 # 	"daily": [
 # 		"analytics.tasks.daily"
@@ -95,7 +98,7 @@ doc_events = {
 # 	"monthly": [
 # 		"analytics.tasks.monthly"
 # 	]
-# }
+#}
 
 # Testing
 # -------
