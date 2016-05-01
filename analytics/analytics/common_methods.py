@@ -34,18 +34,19 @@ def is_versionable(doc):
         return False
 
 
-def check_if_doc_is_disabled(doc):
-	filters = json.dumps({
-		"doc_type": doc.doctype,
-		"property": 'disable_versioning'
-	})
-	try:
-		properties = frappe.client.get("Property Setter", filters=filters)
-		value = properties['value']
-	except:
-		# no property setter for given document, so defaults to False
-		value = False
-	return value
+# relic from when was integrated with framework and property_setter
+#def check_if_doc_is_disabled(doc):
+#	filters = json.dumps({
+#		"doc_type": doc.doctype,
+#		"property": 'disable_versioning'
+#	})
+#	try:
+#		properties = frappe.client.get("Property Setter", filters=filters)
+#		value = properties['value']
+#	except:
+#		# no property setter for given document, so defaults to False
+#		value = False
+#	return value
 
 
 def check_if_module_is_versionable(doc):
@@ -138,6 +139,7 @@ def sort_temp_entries(doc, method):
         # WHY DOES THIS HAVE TO BE BACKWARDS
         log_field_changes(old_dict, new_dict)
         doc.delete()
+
 
 def del_items(dictionary):
     if "items" in dictionary.keys():
