@@ -14,7 +14,7 @@ class DocumentVersioningSettings(Document):
 
 @frappe.whitelist()
 def get_modules():
-	modules = frappe.db.get_all('Module def')
+	modules = frappe.db.get_all('Module Def')
 	settings_doc = frappe.client.get("Document Versioning Settings")
 	if settings_doc['stored_modules']:
 		settings = json.loads(settings_doc['stored_modules'])
