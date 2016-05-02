@@ -3,10 +3,17 @@
 This app works to do two things: enables field history tracking, and provides
 advanced reports based on the data it creates.
 
+It's important to note that the reporting based on field history will not
+be helpful for events pre-installation. The data doesn't exist yet. So, despite
+not having many reports right now, you'll want to start building up your data
+for later use!!
+
 Field history tracking is enabled on a module-by-module basis in the
 "Document Versioning Settings" doctype. Upon changing a document in an enabled
 module, the changed field(s) are sorted into a custom doctype named
-[doctype] Field History.
+[doctype] Field History. Again, if in doubt, enable a module. Great use-cases
+are CRM, Selling, Projects, Manufacturing, Buying, and Accounts. I would not
+enable it for modules like Core, Email, etc.
 
 Reporting is coming soon....here are some potential reports!
   - See your sales funnel and how quickly leads progress by 'status' field
