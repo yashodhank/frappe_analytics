@@ -120,34 +120,38 @@ def make_doctype_maybe(doctype_name):
         dt = frappe.client.get("DocType", doctype_name)
     except frappe.DoesNotExistError:
         dt = DocType(get_change_doctype_json(doctype_name))
-        dt.insert()
+        dt.insert(ignore_permissions=True)
 
 
 def sort_temp_entries(doc, method):
     changed_fields = get_list(
         "Doc History Temp", limit_page_length=None
         )
-    # would like to output to a pipe here
+
     for name in changed_fields:
         doc = frappe.get_doc("Doc History Temp", name['name'])
-        old_dict = ast.literal_eval(doc.json_blob)
-        new_dict = frappe.client.get(old_dict['doctype'], old_dict['name'])
+    	old_dict = ast.literal_eval(doc.json_blob)
+	try:
+	    new_dict = frappe.client.get(old_dict['doctype'], old_dict['name'])
 #        for k, v in old_dict.iteritems():
 #            print(k, v)
 #        for k, vi in new_dict.iteritems():
 #            print(k, v)
         # WHY DOES THIS HAVE TO BE BACKWARDS
-        log_field_changes(old_dict, new_dict)
-        doc.delete()
-
+            log_field_changes(old_dict, new_dict)
+            doc.delete()
+	except: # new doc, does not exist yet
+	    pass
 
 def del_items(dictionary):
     if "items" in dictionary.keys():
         del dictionary['items']
 
 
-def fix_dict(dictionary):
-    for field in dictionary:
-        if type(field) is "Date" or "Datetime":
-            dictionary[field] = str(dictionary[field])
+def date_hook(dictionary):
+    for key, value in dictionary.iteritems():
+        try:
+            dictionary[key] = datetime.datetime.strptime(value, "%m-%d-%Y %H:%M:%S")
+	except:
+	    pass
     return dictionary
